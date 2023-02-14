@@ -2,48 +2,24 @@ import { call, fork, put, takeEvery } from 'redux-saga/effects';
 import { hexlify, hexZeroPad } from 'ethers/lib/utils';
 import { ClientType } from '@colony/colony-js';
 
-import { ContextModule, getContext } from '~context';
-import {
-  ProcessedColonyQuery,
-  ProcessedColonyQueryVariables,
-  ProcessedColonyDocument,
-} from '~data/index';
 import { ActionTypes } from '../../actionTypes';
 import { AllActions, Action } from '../../types/actions';
-import {
-  putError,
-  takeFrom,
-  routeRedirect,
-  uploadIfpsAnnotation,
-} from '../utils';
+import { putError, takeFrom } from '../utils';
 
 import {
   createTransaction,
   createTransactionChannels,
   getTxChannel,
 } from '../transactions';
-import {
-  transactionReady,
-  transactionPending,
-  transactionAddParams,
-} from '../../actionCreators';
+import { transactionReady } from '../../actionCreators';
 
 function* managePermissionsAction({
-  payload: {
-    colonyAddress,
-    domainId,
-    userAddress,
-    roles,
-    colonyName,
-    annotationMessage,
-  },
-  meta: { id: metaId, history },
+  payload: { colonyAddress, domainId, userAddress, roles },
+  meta: { id: metaId },
   meta,
 }: Action<ActionTypes.ACTION_USER_ROLES_SET>) {
   let txChannel;
   try {
-    const apolloClient = getContext(ContextModule.ApolloClient);
-
     if (!userAddress) {
       throw new Error('User address not set for setUserRole transaction');
     }
@@ -60,11 +36,9 @@ function* managePermissionsAction({
 
     const batchKey = 'setUserRoles';
 
-    const { setUserRoles, annotateSetUserRoles } =
-      yield createTransactionChannels(metaId, [
-        'setUserRoles',
-        'annotateSetUserRoles',
-      ]);
+    const { setUserRoles } = yield createTransactionChannels(metaId, [
+      'setUserRoles',
+    ]);
 
     const createGroupTransaction = ({ id, index }, config) =>
       fork(createTransaction, id, {
@@ -96,82 +70,25 @@ function* managePermissionsAction({
       ready: false,
     });
 
-    if (annotationMessage) {
-      yield createGroupTransaction(annotateSetUserRoles, {
-        context: ClientType.ColonyClient,
-        methodName: 'annotateTransaction',
-        identifier: colonyAddress,
-        params: [],
-        ready: false,
-      });
-    }
-
     yield takeFrom(setUserRoles.channel, ActionTypes.TRANSACTION_CREATED);
-    if (annotationMessage) {
-      yield takeFrom(
-        annotateSetUserRoles.channel,
-        ActionTypes.TRANSACTION_CREATED,
-      );
-    }
 
     yield put(transactionReady(setUserRoles.id));
 
-    const {
-      payload: { hash: txHash },
-    } = yield takeFrom(
-      setUserRoles.channel,
-      ActionTypes.TRANSACTION_HASH_RECEIVED,
-    );
+    yield takeFrom(setUserRoles.channel, ActionTypes.TRANSACTION_HASH_RECEIVED);
 
     yield takeFrom(setUserRoles.channel, ActionTypes.TRANSACTION_SUCCEEDED);
 
-    if (annotationMessage) {
-      yield put(transactionPending(annotateSetUserRoles.id));
-
-      const annotationMessageIpfsHash = yield call(
-        uploadIfpsAnnotation,
-        annotationMessage,
-      );
-
-      yield put(
-        transactionAddParams(annotateSetUserRoles.id, [
-          txHash,
-          annotationMessageIpfsHash,
-        ]),
-      );
-
-      yield put(transactionReady(annotateSetUserRoles.id));
-
-      yield takeFrom(
-        annotateSetUserRoles.channel,
-        ActionTypes.TRANSACTION_SUCCEEDED,
-      );
-    }
-
     yield put<AllActions>({
       type: ActionTypes.ACTION_USER_ROLES_SET_SUCCESS,
       meta,
     });
 
-    yield apolloClient.query<
-      ProcessedColonyQuery,
-      ProcessedColonyQueryVariables
-    >({
-      query: ProcessedColonyDocument,
-      variables: {
-        address: colonyAddress,
-      },
-      fetchPolicy: 'network-only',
-    });
-
-    yield put<AllActions>({
-      type: ActionTypes.ACTION_USER_ROLES_SET_SUCCESS,
-      meta,
-    });
-
-    if (colonyName) {
-      yield routeRedirect(`/colony/${colonyName}/tx/${txHash}`, history);
-    }
+    /*
+     * @TODO Redirect to be implemented after #254 gets merged
+     */
+    // if (colonyName) {
+    //   yield routeRedirect(`/colony/${colonyName}/tx/${txHash}`, history);
+    // }
   } catch (error) {
     return yield putError(ActionTypes.ACTION_USER_ROLES_SET_ERROR, error, meta);
   } finally {
