@@ -244,6 +244,22 @@ export type ColonyFundsClaim = {
   updatedAt: Scalars['AWSDateTime'];
 };
 
+export type ColonyHistoricRole = {
+  __typename?: 'ColonyHistoricRole';
+  administration?: Maybe<Scalars['Boolean']>;
+  arbitration?: Maybe<Scalars['Boolean']>;
+  architecture?: Maybe<Scalars['Boolean']>;
+  blockNumber: Scalars['Int'];
+  createdAt: Scalars['AWSDateTime'];
+  domain: Domain;
+  funding?: Maybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  recovery?: Maybe<Scalars['Boolean']>;
+  root?: Maybe<Scalars['Boolean']>;
+  updatedAt: Scalars['AWSDateTime'];
+  user: User;
+};
+
 export type ColonyId = {
   __typename?: 'ColonyID';
   id: Scalars['ID'];
@@ -375,6 +391,17 @@ export type CreateColonyFundsClaimInput = {
   createdAt?: InputMaybe<Scalars['AWSDateTime']>;
   createdAtBlock: Scalars['Int'];
   id?: InputMaybe<Scalars['ID']>;
+};
+
+export type CreateColonyHistoricRoleInput = {
+  administration?: InputMaybe<Scalars['Boolean']>;
+  arbitration?: InputMaybe<Scalars['Boolean']>;
+  architecture?: InputMaybe<Scalars['Boolean']>;
+  blockNumber: Scalars['Int'];
+  funding?: InputMaybe<Scalars['Boolean']>;
+  id?: InputMaybe<Scalars['ID']>;
+  recovery?: InputMaybe<Scalars['Boolean']>;
+  root?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type CreateColonyInput = {
@@ -527,6 +554,10 @@ export type DeleteColonyExtensionInput = {
 };
 
 export type DeleteColonyFundsClaimInput = {
+  id: Scalars['ID'];
+};
+
+export type DeleteColonyHistoricRoleInput = {
   id: Scalars['ID'];
 };
 
@@ -835,6 +866,39 @@ export type ModelColonyFundsClaimFilterInput = {
   or?: InputMaybe<Array<InputMaybe<ModelColonyFundsClaimFilterInput>>>;
 };
 
+export type ModelColonyHistoricRoleConditionInput = {
+  administration?: InputMaybe<ModelBooleanInput>;
+  and?: InputMaybe<Array<InputMaybe<ModelColonyHistoricRoleConditionInput>>>;
+  arbitration?: InputMaybe<ModelBooleanInput>;
+  architecture?: InputMaybe<ModelBooleanInput>;
+  blockNumber?: InputMaybe<ModelIntInput>;
+  funding?: InputMaybe<ModelBooleanInput>;
+  not?: InputMaybe<ModelColonyHistoricRoleConditionInput>;
+  or?: InputMaybe<Array<InputMaybe<ModelColonyHistoricRoleConditionInput>>>;
+  recovery?: InputMaybe<ModelBooleanInput>;
+  root?: InputMaybe<ModelBooleanInput>;
+};
+
+export type ModelColonyHistoricRoleConnection = {
+  __typename?: 'ModelColonyHistoricRoleConnection';
+  items: Array<Maybe<ColonyHistoricRole>>;
+  nextToken?: Maybe<Scalars['String']>;
+};
+
+export type ModelColonyHistoricRoleFilterInput = {
+  administration?: InputMaybe<ModelBooleanInput>;
+  and?: InputMaybe<Array<InputMaybe<ModelColonyHistoricRoleFilterInput>>>;
+  arbitration?: InputMaybe<ModelBooleanInput>;
+  architecture?: InputMaybe<ModelBooleanInput>;
+  blockNumber?: InputMaybe<ModelIntInput>;
+  funding?: InputMaybe<ModelBooleanInput>;
+  id?: InputMaybe<ModelIdInput>;
+  not?: InputMaybe<ModelColonyHistoricRoleFilterInput>;
+  or?: InputMaybe<Array<InputMaybe<ModelColonyHistoricRoleFilterInput>>>;
+  recovery?: InputMaybe<ModelBooleanInput>;
+  root?: InputMaybe<ModelBooleanInput>;
+};
+
 export type ModelColonyMetadataConditionInput = {
   and?: InputMaybe<Array<InputMaybe<ModelColonyMetadataConditionInput>>>;
   avatar?: InputMaybe<ModelStringInput>;
@@ -1080,6 +1144,15 @@ export type ModelIntInput = {
   ne?: InputMaybe<Scalars['Int']>;
 };
 
+export type ModelIntKeyConditionInput = {
+  between?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  eq?: InputMaybe<Scalars['Int']>;
+  ge?: InputMaybe<Scalars['Int']>;
+  gt?: InputMaybe<Scalars['Int']>;
+  le?: InputMaybe<Scalars['Int']>;
+  lt?: InputMaybe<Scalars['Int']>;
+};
+
 export type ModelProfileConditionInput = {
   and?: InputMaybe<Array<InputMaybe<ModelProfileConditionInput>>>;
   avatar?: InputMaybe<ModelStringInput>;
@@ -1207,6 +1280,19 @@ export type ModelSubscriptionColonyFundsClaimFilterInput = {
   createdAtBlock?: InputMaybe<ModelSubscriptionIntInput>;
   id?: InputMaybe<ModelSubscriptionIdInput>;
   or?: InputMaybe<Array<InputMaybe<ModelSubscriptionColonyFundsClaimFilterInput>>>;
+};
+
+export type ModelSubscriptionColonyHistoricRoleFilterInput = {
+  administration?: InputMaybe<ModelSubscriptionBooleanInput>;
+  and?: InputMaybe<Array<InputMaybe<ModelSubscriptionColonyHistoricRoleFilterInput>>>;
+  arbitration?: InputMaybe<ModelSubscriptionBooleanInput>;
+  architecture?: InputMaybe<ModelSubscriptionBooleanInput>;
+  blockNumber?: InputMaybe<ModelSubscriptionIntInput>;
+  funding?: InputMaybe<ModelSubscriptionBooleanInput>;
+  id?: InputMaybe<ModelSubscriptionIdInput>;
+  or?: InputMaybe<Array<InputMaybe<ModelSubscriptionColonyHistoricRoleFilterInput>>>;
+  recovery?: InputMaybe<ModelSubscriptionBooleanInput>;
+  root?: InputMaybe<ModelSubscriptionBooleanInput>;
 };
 
 export type ModelSubscriptionColonyMetadataFilterInput = {
@@ -1494,6 +1580,7 @@ export type Mutation = {
   createColonyAction?: Maybe<ColonyAction>;
   createColonyExtension?: Maybe<ColonyExtension>;
   createColonyFundsClaim?: Maybe<ColonyFundsClaim>;
+  createColonyHistoricRole?: Maybe<ColonyHistoricRole>;
   createColonyMetadata?: Maybe<ColonyMetadata>;
   createColonyRole?: Maybe<ColonyRole>;
   createColonyTokens?: Maybe<ColonyTokens>;
@@ -1512,6 +1599,7 @@ export type Mutation = {
   deleteColonyAction?: Maybe<ColonyAction>;
   deleteColonyExtension?: Maybe<ColonyExtension>;
   deleteColonyFundsClaim?: Maybe<ColonyFundsClaim>;
+  deleteColonyHistoricRole?: Maybe<ColonyHistoricRole>;
   deleteColonyMetadata?: Maybe<ColonyMetadata>;
   deleteColonyRole?: Maybe<ColonyRole>;
   deleteColonyTokens?: Maybe<ColonyTokens>;
@@ -1529,6 +1617,7 @@ export type Mutation = {
   updateColonyAction?: Maybe<ColonyAction>;
   updateColonyExtension?: Maybe<ColonyExtension>;
   updateColonyFundsClaim?: Maybe<ColonyFundsClaim>;
+  updateColonyHistoricRole?: Maybe<ColonyHistoricRole>;
   updateColonyMetadata?: Maybe<ColonyMetadata>;
   updateColonyRole?: Maybe<ColonyRole>;
   updateColonyTokens?: Maybe<ColonyTokens>;
@@ -1566,6 +1655,12 @@ export type MutationCreateColonyExtensionArgs = {
 export type MutationCreateColonyFundsClaimArgs = {
   condition?: InputMaybe<ModelColonyFundsClaimConditionInput>;
   input: CreateColonyFundsClaimInput;
+};
+
+
+export type MutationCreateColonyHistoricRoleArgs = {
+  condition?: InputMaybe<ModelColonyHistoricRoleConditionInput>;
+  input: CreateColonyHistoricRoleInput;
 };
 
 
@@ -1675,6 +1770,12 @@ export type MutationDeleteColonyFundsClaimArgs = {
 };
 
 
+export type MutationDeleteColonyHistoricRoleArgs = {
+  condition?: InputMaybe<ModelColonyHistoricRoleConditionInput>;
+  input: DeleteColonyHistoricRoleInput;
+};
+
+
 export type MutationDeleteColonyMetadataArgs = {
   condition?: InputMaybe<ModelColonyMetadataConditionInput>;
   input: DeleteColonyMetadataInput;
@@ -1773,6 +1874,12 @@ export type MutationUpdateColonyExtensionArgs = {
 export type MutationUpdateColonyFundsClaimArgs = {
   condition?: InputMaybe<ModelColonyFundsClaimConditionInput>;
   input: UpdateColonyFundsClaimInput;
+};
+
+
+export type MutationUpdateColonyHistoricRoleArgs = {
+  condition?: InputMaybe<ModelColonyHistoricRoleConditionInput>;
+  input: UpdateColonyHistoricRoleInput;
 };
 
 
@@ -1919,6 +2026,7 @@ export type Query = {
   getColonyByType?: Maybe<ModelColonyConnection>;
   getColonyExtension?: Maybe<ColonyExtension>;
   getColonyFundsClaim?: Maybe<ColonyFundsClaim>;
+  getColonyHistoricRole?: Maybe<ColonyHistoricRole>;
   getColonyMetadata?: Maybe<ColonyMetadata>;
   getColonyRole?: Maybe<ColonyRole>;
   getColonyTokens?: Maybe<ColonyTokens>;
@@ -1945,6 +2053,7 @@ export type Query = {
   listColonyActions?: Maybe<ModelColonyActionConnection>;
   listColonyExtensions?: Maybe<ModelColonyExtensionConnection>;
   listColonyFundsClaims?: Maybe<ModelColonyFundsClaimConnection>;
+  listColonyHistoricRoles?: Maybe<ModelColonyHistoricRoleConnection>;
   listColonyMetadata?: Maybe<ModelColonyMetadataConnection>;
   listColonyRoles?: Maybe<ModelColonyRoleConnection>;
   listColonyTokens?: Maybe<ModelColonyTokensConnection>;
@@ -2013,6 +2122,11 @@ export type QueryGetColonyExtensionArgs = {
 
 
 export type QueryGetColonyFundsClaimArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetColonyHistoricRoleArgs = {
   id: Scalars['ID'];
 };
 
@@ -2184,6 +2298,13 @@ export type QueryListColonyFundsClaimsArgs = {
 };
 
 
+export type QueryListColonyHistoricRolesArgs = {
+  filter?: InputMaybe<ModelColonyHistoricRoleFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+};
+
+
 export type QueryListColonyMetadataArgs = {
   filter?: InputMaybe<ModelColonyMetadataFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2278,6 +2399,7 @@ export type Subscription = {
   onCreateColonyAction?: Maybe<ColonyAction>;
   onCreateColonyExtension?: Maybe<ColonyExtension>;
   onCreateColonyFundsClaim?: Maybe<ColonyFundsClaim>;
+  onCreateColonyHistoricRole?: Maybe<ColonyHistoricRole>;
   onCreateColonyMetadata?: Maybe<ColonyMetadata>;
   onCreateColonyRole?: Maybe<ColonyRole>;
   onCreateColonyTokens?: Maybe<ColonyTokens>;
@@ -2294,6 +2416,7 @@ export type Subscription = {
   onDeleteColonyAction?: Maybe<ColonyAction>;
   onDeleteColonyExtension?: Maybe<ColonyExtension>;
   onDeleteColonyFundsClaim?: Maybe<ColonyFundsClaim>;
+  onDeleteColonyHistoricRole?: Maybe<ColonyHistoricRole>;
   onDeleteColonyMetadata?: Maybe<ColonyMetadata>;
   onDeleteColonyRole?: Maybe<ColonyRole>;
   onDeleteColonyTokens?: Maybe<ColonyTokens>;
@@ -2310,6 +2433,7 @@ export type Subscription = {
   onUpdateColonyAction?: Maybe<ColonyAction>;
   onUpdateColonyExtension?: Maybe<ColonyExtension>;
   onUpdateColonyFundsClaim?: Maybe<ColonyFundsClaim>;
+  onUpdateColonyHistoricRole?: Maybe<ColonyHistoricRole>;
   onUpdateColonyMetadata?: Maybe<ColonyMetadata>;
   onUpdateColonyRole?: Maybe<ColonyRole>;
   onUpdateColonyTokens?: Maybe<ColonyTokens>;
@@ -2342,6 +2466,11 @@ export type SubscriptionOnCreateColonyExtensionArgs = {
 
 export type SubscriptionOnCreateColonyFundsClaimArgs = {
   filter?: InputMaybe<ModelSubscriptionColonyFundsClaimFilterInput>;
+};
+
+
+export type SubscriptionOnCreateColonyHistoricRoleArgs = {
+  filter?: InputMaybe<ModelSubscriptionColonyHistoricRoleFilterInput>;
 };
 
 
@@ -2425,6 +2554,11 @@ export type SubscriptionOnDeleteColonyFundsClaimArgs = {
 };
 
 
+export type SubscriptionOnDeleteColonyHistoricRoleArgs = {
+  filter?: InputMaybe<ModelSubscriptionColonyHistoricRoleFilterInput>;
+};
+
+
 export type SubscriptionOnDeleteColonyMetadataArgs = {
   filter?: InputMaybe<ModelSubscriptionColonyMetadataFilterInput>;
 };
@@ -2502,6 +2636,11 @@ export type SubscriptionOnUpdateColonyExtensionArgs = {
 
 export type SubscriptionOnUpdateColonyFundsClaimArgs = {
   filter?: InputMaybe<ModelSubscriptionColonyFundsClaimFilterInput>;
+};
+
+
+export type SubscriptionOnUpdateColonyHistoricRoleArgs = {
+  filter?: InputMaybe<ModelSubscriptionColonyHistoricRoleFilterInput>;
 };
 
 
@@ -2651,6 +2790,17 @@ export type UpdateColonyFundsClaimInput = {
   createdAt?: InputMaybe<Scalars['AWSDateTime']>;
   createdAtBlock?: InputMaybe<Scalars['Int']>;
   id: Scalars['ID'];
+};
+
+export type UpdateColonyHistoricRoleInput = {
+  administration?: InputMaybe<Scalars['Boolean']>;
+  arbitration?: InputMaybe<Scalars['Boolean']>;
+  architecture?: InputMaybe<Scalars['Boolean']>;
+  blockNumber?: InputMaybe<Scalars['Int']>;
+  funding?: InputMaybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  recovery?: InputMaybe<Scalars['Boolean']>;
+  root?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type UpdateColonyInput = {
