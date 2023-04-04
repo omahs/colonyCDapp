@@ -118,6 +118,11 @@ input GetMotionStateInput {
   colonyAddress: String!
 }
 
+input GetMotionTimeoutPeriodsInput {
+  motionId: Int!
+  colonyAddress: String!
+}
+
 type UserDomainReputation {
   domainId: Int!
   reputationPercentage: String!
@@ -133,6 +138,13 @@ type GetUserTokenBalanceReturn {
   lockedBalance: String
   activeBalance: String
   pendingBalance: String
+}
+
+type GetMotionTimeoutPeriodsReturn {
+  timeLeftToStake: String!,
+  timeLeftToSubmit: String!,
+  timeLeftToReveal: String!,
+  timeLeftToEscalate: String!
 }
 
 # Definitions:
@@ -235,6 +247,8 @@ type Query {
     @function(name: "getMembersForColony")
   getMotionState(input: GetMotionStateInput): Int
     @function(name: "fetchMotionState")
+  getMotionTimeoutPeriods(input: GetMotionTimeoutPeriodsInput): GetMotionTimeoutPeriodsReturn
+    @function(name: "fetchMotionTimeoutPeriods")
 }
 
 type Mutation {

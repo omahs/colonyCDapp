@@ -28,3 +28,12 @@ query GetColonyAction($transactionHash: ID!) {
 query GetMotionState($input: GetMotionStateInput!) {
   getMotionState(input: $input)
 }
+
+query GetMotionTimeoutPeriods($input: GetMotionTimeoutPeriodsInput!) {
+  getMotionTimeoutPeriods(input: $input) {
+    timeLeftToStake
+    timeLeftToSubmit
+    timeLeftToReveal
+    timeLeftToEscalate
+  }
+}
