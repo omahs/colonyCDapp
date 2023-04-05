@@ -1475,6 +1475,7 @@ export type MotionData = {
   stakerRewards: Array<StakerRewards>;
   userMinStake: Scalars['String'];
   usersStakes: Array<UserStakes>;
+  events: Array<MotionEvent>;
 };
 
 export type MotionDataInput = {
@@ -1490,6 +1491,26 @@ export type MotionDataInput = {
   stakerRewards: Array<StakerRewardsInput>;
   userMinStake: Scalars['String'];
   usersStakes: Array<UserStakesInput>;
+  events: Array<MotionEventInput>;
+};
+
+export type MotionEvent = {
+  __typename?: 'MotionEvent';
+  createdAt: Scalars['AWSDateTime'];
+  emmitedBy: Scalars['String'];
+  name: Scalars['String'];
+  transactionHash: Scalars['String'];
+  type: Scalars['String'];
+  values: Array<Scalars['String']>;
+};
+
+export type MotionEventInput = {
+  createdAt?: InputMaybe<Scalars['AWSDateTime']>;
+  emmitedBy: Scalars['String'];
+  name: Scalars['String'];
+  transactionHash: Scalars['String'];
+  type: Scalars['String'];
+  values: Array<Scalars['String']>;
 };
 
 export type MotionStakeValues = {
@@ -3257,6 +3278,13 @@ export const MotionDataFragmentDoc = gql`
     isClaimed
   }
   isFinalized
+  events {
+    name
+    values
+    createdAt
+    emmitedBy
+    transactionHash
+  }
 }
     ${MotionStakeValuesFragmentDoc}`;
 export const ColonyActionFragmentDoc = gql`

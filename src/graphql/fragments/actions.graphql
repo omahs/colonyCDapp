@@ -78,4 +78,11 @@ fragment MotionData on MotionData {
     isClaimed
   }
   isFinalized
+  events {
+    name
+    # values
+    # createdAt
+    # emmitedBy
+    # transactionHash
+  }
 }
