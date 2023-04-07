@@ -3239,6 +3239,14 @@ export const MotionStakeValuesFragmentDoc = gql`
   nay
 }
     `;
+export const MotionEventFragmentDoc = gql`
+    fragment MotionEvent on MotionEvent {
+  name
+  initiatorAddress
+  vote
+  amount
+}
+    `;
 export const MotionDataFragmentDoc = gql`
     fragment MotionData on MotionData {
   databaseMotionId: motionId
@@ -3277,13 +3285,11 @@ export const MotionDataFragmentDoc = gql`
   }
   isFinalized
   events {
-    name
-    initiatorAddress
-    vote
-    amount
+    ...MotionEvent
   }
 }
-    ${MotionStakeValuesFragmentDoc}`;
+    ${MotionStakeValuesFragmentDoc}
+${MotionEventFragmentDoc}`;
 export const ColonyActionFragmentDoc = gql`
     fragment ColonyAction on ColonyAction {
   transactionHash: id
@@ -3327,14 +3333,6 @@ export const ColonyActionFragmentDoc = gql`
 ${TokenFragmentDoc}
 ${DomainFragmentDoc}
 ${MotionDataFragmentDoc}`;
-export const MotionEventFragmentDoc = gql`
-    fragment MotionEvent on MotionEvent {
-  name
-  initiatorAddress
-  vote
-  amount
-}
-    `;
 export const ColonyBalanceFragmentDoc = gql`
     fragment ColonyBalance on ColonyBalance {
   id

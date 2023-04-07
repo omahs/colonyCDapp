@@ -79,10 +79,7 @@ fragment MotionData on MotionData {
   }
   isFinalized
   events {
-    name
-    initiatorAddress
-    vote
-    amount
+    ...MotionEvent
   }
 }
 
