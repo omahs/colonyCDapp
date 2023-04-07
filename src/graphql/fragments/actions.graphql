@@ -80,9 +80,15 @@ fragment MotionData on MotionData {
   isFinalized
   events {
     name
-    # values
-    # createdAt
-    # emmitedBy
-    # transactionHash
+    initiatorAddress
+    vote
+    amount
   }
+}
+
+fragment MotionEvent on MotionEvent {
+  name
+  initiatorAddress
+  vote
+  amount
 }
