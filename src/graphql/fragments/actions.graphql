@@ -83,4 +83,5 @@ fragment MotionData on MotionData {
     voteCount
     vote
   }
+  votes
 }
