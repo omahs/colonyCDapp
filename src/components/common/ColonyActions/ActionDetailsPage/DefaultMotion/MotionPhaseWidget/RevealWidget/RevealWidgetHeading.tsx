@@ -2,8 +2,7 @@ import React from 'react';
 import { FormattedMessage, defineMessages } from 'react-intl';
 
 import { Heading4 } from '~shared/Heading';
-import { CustomRadio } from '~shared/Fields';
-import { MotionVote } from '~utils/colonyMotions';
+import RevealedVote from './RevealedVote';
 
 import styles from './RevealWidgetHeading.css';
 
@@ -36,52 +35,21 @@ interface RevealWidgetHeadingProps {
 const RevealWidgetHeading = ({
   hasUserVoted,
   vote,
-}: RevealWidgetHeadingProps) => {
-  const revealedVote = vote ? Number(vote) : vote;
-
-  return (
-    <div className={styles.main}>
-      <Heading4
-        text={hasUserVoted ? MSG.title : MSG.titleNotVoted}
-        textValues={hasUserVoted ? { revealed: !!vote } : undefined}
-        appearance={{ weight: 'bold', theme: 'dark', margin: 'none' }}
-      />
-      {revealedVote === MotionVote.Yay && (
-        <CustomRadio
-          /*
-           * @NOTE This is just for display purposes, we don't actually
-           * want to use it as radio button
-           */
-          value=""
-          name="voteYes"
-          label={{ id: 'button.yes' }}
-          appearance={{ theme: 'primary' }}
-          icon="circle-thumbs-up"
-          checked
-        />
-      )}
-      {revealedVote === MotionVote.Nay && (
-        <CustomRadio
-          /*
-           * @NOTE This is just for display purposes, we don't actually
-           * want to use it as radio button
-           */
-          value=""
-          name="voteNo"
-          label={{ id: 'button.no' }}
-          appearance={{ theme: 'danger' }}
-          icon="circle-thumbs-down"
-          checked
-        />
-      )}
-      {!revealedVote && hasUserVoted && (
-        <div className={styles.voteHiddenInfo}>
-          <FormattedMessage {...MSG.voteHiddenInfo} />
-        </div>
-      )}
-    </div>
-  );
-};
+}: RevealWidgetHeadingProps) => (
+  <div className={styles.main}>
+    <Heading4
+      text={hasUserVoted ? MSG.title : MSG.titleNotVoted}
+      textValues={hasUserVoted ? { revealed: !!vote } : undefined}
+      appearance={{ weight: 'bold', theme: 'dark', margin: 'none' }}
+    />
+    {vote && <RevealedVote vote={Number(vote)} />}
+    {!vote && hasUserVoted && (
+      <div className={styles.voteHiddenInfo}>
+        <FormattedMessage {...MSG.voteHiddenInfo} />
+      </div>
+    )}
+  </div>
+);
 
 RevealWidgetHeading.displayName = displayName;
 
