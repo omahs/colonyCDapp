@@ -81,5 +81,6 @@ fragment MotionData on MotionData {
   voterRecord {
     address
     voteCount
+    vote
   }
 }
